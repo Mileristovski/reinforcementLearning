@@ -12,7 +12,7 @@ fn main() {
             let path = "./src/secret_env/libs/secret_envs.dll";
         let lib = libloading::Library::new(path).expect("Failed to load library");
 
-        println!("Secret env 0 functions available for Dynamic Programming ------------------------------------------------------");
+        println!("Secret env 0 functions available for dynamic_programming ------------------------------------------------------");
 
         let secret_env_0_num_states: libloading::Symbol<unsafe extern fn() -> usize> =
             lib.get(b"secret_env_0_num_states").expect("Failed to load function `secret_env_0_num_states`");
@@ -114,7 +114,7 @@ fn main() {
 
         secret_env_0_delete(env);
 
-        println!("Secret env 1 functions available for Dynamic Programming ------------------------------------------------------");
+        println!("Secret env 1 functions available for dynamic_programming ------------------------------------------------------");
 
         let secret_env_1_num_states: libloading::Symbol<unsafe extern fn() -> usize> =
             lib.get(b"secret_env_1_num_states").expect("Failed to load function `secret_env_1_num_states`");
@@ -214,7 +214,7 @@ fn main() {
 
         secret_env_1_delete(env);
 
-        println!("Secret env 2 functions available for Dynamic Programming ------------------------------------------------------");
+        println!("Secret env 2 functions available for dynamic_programming ------------------------------------------------------");
 
         let secret_env_2_num_states: libloading::Symbol<unsafe extern fn() -> usize> =
             lib.get(b"secret_env_2_num_states").expect("Failed to load function `secret_env_2_num_states`");
@@ -314,7 +314,7 @@ fn main() {
 
         secret_env_2_delete(env);
 
-        println!("Secret env 3 functions available for Dynamic Programming ------------------------------------------------------");
+        println!("Secret env 3 functions available for dynamic_programming ------------------------------------------------------");
 
         let secret_env_3_num_states: libloading::Symbol<unsafe extern fn() -> usize> =
             lib.get(b"secret_env_3_num_states").expect("Failed to load function `secret_env_3_num_states`");

@@ -3,13 +3,13 @@ use std::ffi::c_void;
 fn main() {
     unsafe {
         #[cfg(target_os = "linux")]
-            let path = "./src/secret_env/libs/libsecret_envs.so";
+            let path = "./src/bin/envs/secret_env/libs/libsecret_envs.so";
         #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
-            let path = "./src/secret_env/libs/libsecret_envs_intel_macos.dylib";
+            let path = "./src/bin/envs/secret_env/libs/libsecret_envs_intel_macos.dylib";
         #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
-            let path = "./src/secret_env/libs/libsecret_envs.dylib";
+            let path = "./src/bin/envs/secret_env/libs/libsecret_envs.dylib";
         #[cfg(windows)]
-            let path = "./src/secret_env/libs/secret_envs.dll";
+            let path = "./src/bin/envs/secret_env/libs/secret_envs.dll";
         let lib = libloading::Library::new(path).expect("Failed to load library");
 
         println!("Secret env 0 functions available for dynamic_programming ------------------------------------------------------");

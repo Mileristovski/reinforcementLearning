@@ -1,5 +1,5 @@
 use nalgebra::{DVector};
-
+#[allow(dead_code)]
 pub trait Env {
     fn num_states(&self) -> usize;
     fn num_actions(&self) -> usize;
@@ -13,6 +13,6 @@ pub trait Env {
     fn is_game_over(&self) -> bool;
     fn available_actions(&self) -> DVector<i32>;
     fn step(&mut self, action: i32);
-    fn score(&self);
+    fn score(&self) -> f32;
     fn from_random_state() -> Self where Self: Sized;
 }

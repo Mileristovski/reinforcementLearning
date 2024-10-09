@@ -27,7 +27,6 @@ impl LineEnv {
 }
 
 impl Env for LineEnv {
-    /// Returns the value in seconds.
     fn num_states(&self) -> usize  {
         self.s.len()
     }
@@ -110,8 +109,8 @@ impl Env for LineEnv {
         }
     }
 
-    fn score(&self) {
-        println!("{}", self.current_score)
+    fn score(&self) -> f32 {
+        self.current_score
     }
 
     fn from_random_state() -> Self

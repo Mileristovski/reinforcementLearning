@@ -42,14 +42,15 @@ fn iterative_policy_evaluation(
     v
 }
 */
+
 fn iterative_policy_evaluation(
-    pi: &Vec<usize>,
-    s: &Vec<usize>,
-    r: &Vec<f32>,
-    p: &Vec<Vec<Vec<Vec<f32>>>>,
-    t: &Vec<usize>,
+    pi: &Vec<usize>, // Policy (as indices)
+    s: &Vec<usize>,  // States (as indices)
+    r: &Vec<f32>,    // Rewards
+    p: &Vec<Vec<Vec<Vec<f32>>>>, // Transition probabilities
+    t: &Vec<usize>,  // Terminal states
     gamma: f32,
-    theta: f32
+    theta: f32,
 ) -> Vec<f32> {
     let mut v = vec![0.0_f32; s.len()];  // Initialize value function V(s) randomly
     for &term_state in t { // Set terminal state values to 0
@@ -58,9 +59,10 @@ fn iterative_policy_evaluation(
 
     loop {
         let mut delta: f32 = 0.0;
+
         for &state in s {
             let v_old = v[state];
-            let action = pi[state];
+            let action = pi[state]; // Get the action from policy
             let mut total = 0.0;
 
             for &next_state in s {
@@ -69,7 +71,6 @@ fn iterative_policy_evaluation(
                     total += p[state][action][next_state][r_id] * (reward + gamma * v[next_state]);
                 }
             }
-
             v[state] = total;
             delta = delta.max((v_old - v[state]).abs());
         }
@@ -82,11 +83,11 @@ fn iterative_policy_evaluation(
 }
 
 pub fn policy_iteration(
-    s: &Vec<usize>, // States
-    a: &Vec<usize>, // Actions
-    r: &Vec<f32>, // Rewards
+    s: &Vec<usize>,  // States (as indices)
+    a: &Vec<usize>,  // Actions
+    r: &Vec<f32>,    // Rewards
     p: &Vec<Vec<Vec<Vec<f32>>>>, // Transition probabilities
-    t: &Vec<usize>, // Terminal states
+    t: &Vec<usize>,  // Terminal states
     gamma: f32,
     theta: f32,
 ) -> (Vec<usize>, Vec<f32>) {
@@ -99,8 +100,8 @@ pub fn policy_iteration(
 
     // Randomly initialize the policy
     let mut rng = rand::thread_rng();
-    for state in s {
-        pi[*state] = rng.gen_range(0..a.len()); // Randomly select an action
+    for &state in s {
+        pi[state] = rng.gen_range(0..a.len()); // Randomly select an action
     }
 
     loop {
@@ -113,7 +114,7 @@ pub fn policy_iteration(
         for &state in s {
             let old_action = pi[state];
             let mut best_a = 0;
-            let mut best_a_score = -99999999.99;
+            let mut best_a_score = -9999999.99; // Initialize to negative infinity
 
             for &action in a {
                 let mut total = 0.0;

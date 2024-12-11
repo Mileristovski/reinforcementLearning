@@ -40,7 +40,6 @@ pub fn on_policy_first_visit_monte_carlo_control(
 
         for (_, (s_t, a_t, r_t)) in trajectory.iter().rev().enumerate() {
             g = gamma * g + *r_t;
-
             if !visited.contains_key(&(*s_t, *a_t)) {
                 visited.insert((*s_t, *a_t), true);
                 returns[*s_t][*a_t].push(g);

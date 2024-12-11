@@ -57,16 +57,14 @@ impl Env for LineEnv {
     }
 
     fn display(&self) {
-        // Iterate over the range of the length of s
         for s in 0..self.s.len() {
-            // Check if the current index matches the current state
             if s == self.current_state {
-                print!("X");  // Print 'X' for the current state
+                print!("X");
             } else {
-                print!("_");  // Print '_' for other states
+                print!("_");
             }
         }
-        println!();  // Print a newline at the end
+        println!();
     }
 
     fn is_forbidden(&self, _action: usize) -> bool {

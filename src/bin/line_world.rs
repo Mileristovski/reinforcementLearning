@@ -23,6 +23,15 @@ fn testing_env_manually() {
 
     // Display matrix and vector
     env.display();
+    println!("Score : {}", env.score());
+
+    env.step(0);
+    env.display();
+    println!("Score : {}", env.score());
+
+    env.step(1);
+    env.display();
+    println!("Score : {}", env.score());
 
     env.step(1);
     env.display();

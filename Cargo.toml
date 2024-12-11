@@ -16,3 +16,7 @@ kdam = "0.5.2"
 [[bin]]
 name = "line_world"
 path = "src/bin/line_world.rs"
+
+[[bin]]
+name = "secret_env"
+path = "src/bin/main.rs"

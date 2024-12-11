@@ -86,7 +86,7 @@ pub fn policy_iteration(
     s: &Vec<usize>,  // States (as indices)
     a: &Vec<usize>,  // Actions
     r: &Vec<f32>,    // Rewards
-    p: &Vec<Vec<Vec<Vec<f32>>>>, // Transition probabilities
+    p: &Vec<Vec<Vec<Vec<f32>>>>,
     t: &Vec<usize>,  // Terminal states
     gamma: f32,
     theta: f32,
@@ -94,14 +94,13 @@ pub fn policy_iteration(
     // Initialization
     let mut v = vec![0.0_f32; s.len()];
     for &term_state in t {
-        v[term_state] = 0.0; // Set terminal state values to 0
+        v[term_state] = 0.0;
     }
-    let mut pi = vec![0; s.len()]; // Initialize policy with zeros
+    let mut pi = vec![0; s.len()];
 
-    // Randomly initialize the policy
     let mut rng = rand::thread_rng();
     for &state in s {
-        pi[state] = rng.gen_range(0..a.len()); // Randomly select an action
+        pi[state] = rng.gen_range(0..a.len());
     }
 
     loop {
@@ -114,7 +113,7 @@ pub fn policy_iteration(
         for &state in s {
             let old_action = pi[state];
             let mut best_a = 0;
-            let mut best_a_score = -9999999.99; // Initialize to negative infinity
+            let mut best_a_score = -9999999.99;
 
             for &action in a {
                 let mut total = 0.0;

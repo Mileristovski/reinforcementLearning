@@ -5,7 +5,8 @@ use crate::back::envs::basic_env::Env;
 use crate::back::rl::dynamic_programming::iterative_policy_evaluation::iterative_policy_evaluation;
 use crate::back::rl::dynamic_programming::policy_iteration::policy_iteration;
 use crate::back::rl::dynamic_programming::value_iteration::value_iteration;
-use crate::back::rl::monte_carlo::off_policy::{off_policy_mc_control, off_policy_mc_control_dynamic, off_policy_mc_control_secret};
+use crate::back::rl::monte_carlo::es::monte_carlo_es;
+use crate::back::rl::monte_carlo::off_policy::{off_policy_mc_control_dynamic, off_policy_mc_control_secret};
 use crate::back::rl::monte_carlo::on_policy::{on_policy_first_visit_monte_carlo_control, on_policy_first_visit_monte_carlo_control_dynamic, on_policy_first_visit_monte_carlo_control_secret};
 use crate::back::rl::planning::dyna_q::dyna_q;
 use crate::back::rl::temporal_difference_learning::q_learning::{q_learning, q_learning_dynamic};
@@ -170,10 +171,10 @@ pub fn testing_policy_iterations<E: Env>(env: &mut E) {
     let a =  (0..env.num_actions()).collect();
     let r = env.get_reward_vector();
     let t = env.get_terminal_states();
-    let gamma = 0.999;
-    let theta = 0.0001;
+    let gamma = ask_user_for_float("Enter the gamma value (default: 0.999): ", 0.999);
+    let theta = ask_user_for_float("Enter the gamma value (default: 0.0001): ", 0.0001);
 
-    let (pi, v) = policy_iteration(&s, &a, &r, &t, env, gamma, theta);
+    let (pi, v) = policy_iteration(&s, &a, &r, &t, env, gamma as f32, theta as f32);
     println!("Optimal Values: {:?}", v);
     println!("Optimal Policy: {:?}", pi);
     test_policy(env, pi);
@@ -320,6 +321,20 @@ pub fn testing_monte_carlo_off_policy_secret<E: Env>(env: &mut E) {
     test_policy(env, pi.clone());
 }
 
+pub fn testing_monte_carlo_es<E: Env>(env: &mut E) {
+    println!("Monte Carlo Off-Policy");
+
+    let num_episodes = ask_user_for_value("Enter the number of episodes (default: 10,000): ", 10_000);
+    let gamma = ask_user_for_float("Enter the gamma value (default: 0.999): ", 0.999);
+
+    let (pi, q) = monte_carlo_es(env, num_episodes, gamma as f32);
+    println!("Monte Carlo Off-Policy Control Results:");
+    println!("-------------------------------------");
+    println!("Policy (pi): {:?}", pi);
+    display_q(q);
+    test_policy(env, pi.clone());
+}
+
 pub fn testing_dyna_q<E: Env>(env: &mut E) {
     println!("Dyna-Q");
     let num_episodes = ask_user_for_value("Enter the number of episodes (default: 10,000): ", 10_000);
@@ -329,9 +344,20 @@ pub fn testing_dyna_q<E: Env>(env: &mut E) {
     let planning_steps = 100;
     let (q, model) = dyna_q(env, num_episodes, alpha as f32, epsilon as f32, gamma as f32, planning_steps);
 
-    display_q(q);
+    display_q(q.clone());
     println!("Model : {:?}", model);
-    println!("-------------------------------------");
+    let pi = q.clone().iter()
+        .map(|state_probs| {
+            state_probs
+                .iter()
+                .enumerate()
+                .max_by(|(_, a), (_, b)| a.partial_cmp(b).unwrap())
+                .map(|(index, _)| index)
+                .unwrap_or(0)
+        })
+        .collect();
+
+    test_policy(env, pi);
 }
 
 pub fn testing_sarsa<E: Env>(env: &mut E) {

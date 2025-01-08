@@ -291,7 +291,7 @@ pub fn testing_monte_carlo_off_policy<E: Env>(env: &mut E) {
     println!("Monte Carlo Off-Policy Control Results:");
     println!("-------------------------------------");
     println!("Policy (pi): {:?}", pi);
-    // display_q(q);
+    display_q(q);
     test_policy(env, pi.clone());
 }
 
@@ -594,6 +594,7 @@ pub fn run_no_dp_secret<E: Env>(mut env: E) {
         "Monte Carlo : off policy",
         "Temporal difference: Q-Learning",
         "Temporal difference: SARSA",
+        "Planning: Dyna-Q",
         "Back",
     ];
     loop {
@@ -605,7 +606,8 @@ pub fn run_no_dp_secret<E: Env>(mut env: E) {
             2 => testing_monte_carlo_off_policy_secret(&mut env),
             3 => testing_q_learning_secret(&mut env),
             4 => testing_sarsa_secret(&mut env),
-            5 => break,
+            5 => testing_dyna_q(&mut env),
+            6 => break,
             _ => {}
         }
         end_of_run();

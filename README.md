@@ -32,14 +32,14 @@ Ce projet explore et teste divers **algorithmes d'Apprentissage par Renforcement
    ```
 3. **Installer les dépendances** :
    ```bash
-   pip install -r requirements.txt
+   cargo build --release
    ```
 
 ## Utilisation
 
 1. **Exécuter un algorithme RL sur un environnement donné** :
    ```bash
-   python run_experiment.py --env grid_world --algo monte_carlo
+   cargo run --release
    ```
 2. **Suivre la progression de l'entraînement** via les journaux ou les visualisations.
 

@@ -1,4 +1,4 @@
-# Algorithmes d'Apprentissage par Renforcement
+# Reinforcement Learning Algorithms
 
 ## Aperçu
 
